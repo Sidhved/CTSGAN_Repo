@@ -59,7 +59,7 @@ class SCANer:
         if self.half:
             self.model = self.model.half()
 
-    def dni(self, net_a, net_b, dni_weight, key='params', loc='cpu'):
+    def dni(self, net_a, net_b, dni_weight, key='params_ema', loc='cpu'):
         """Deep network interpolation.
         ``Paper: Deep Network Interpolation for Continuous Imagery Effect Transition``
         """

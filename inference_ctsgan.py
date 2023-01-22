@@ -34,11 +34,11 @@ def main():
     if args.model_name == 'CTSGAN_x4':
         model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=4)
         netscale = 4
-        file_url = ['https://github.com/Sidhved/CTSGAN_Repo/blob/main/experiments/CTSGAN_x4.pth']
+        file_url = ['https://github.com/Sidhved/CTSGAN_Repo/releases/download/v1/CTSGAN_x4.pth']
     elif args.model_name == 'CTSGAN_x2':
         model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=2)
         netscale = 2
-        file_url = ['https://github.com/Sidhved/CTSGAN_Repo/blob/main/experiments/CTSGAN_x4.pth']
+        file_url = ['https://github.com/Sidhved/CTSGAN_Repo/releases/download/v1/CTSGAN_x4.pth']
     
     #determine model paths
     if args.model_path is None:

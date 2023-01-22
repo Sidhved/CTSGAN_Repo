@@ -11,7 +11,17 @@ from torch.nn import functional as F
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class SCANer:
-    def __init__(self, scale, model_path, dni_weight=None, model=None, tile=0, tile_pad = 10, pre_pad=10, half=False, device=None, gpu_id=None):
+    def __init__(self,
+                 scale,
+                 model_path,
+                 dni_weight=None,
+                 model=None,
+                 tile=0,
+                 tile_pad=10,
+                 pre_pad=10,
+                 half=False,
+                 device=None,
+                 gpu_id=None):
         self.scale = scale
         self.tile_size = tile
         self.tile_pad = tile_pad
@@ -19,7 +29,7 @@ class SCANer:
         self.mod_scale = None
         self.half = half
 
-#initializing model
+        # initialize model
         if gpu_id:
             self.device = torch.device(
                 f'cuda:{gpu_id}' if torch.cuda.is_available() else 'cpu') if device is None else device
@@ -148,7 +158,9 @@ class SCANer:
                 output_end_y_tile = output_start_y_tile + input_tile_height * self.scale
 
                 # put tile into output image
-                self.output[:, :, output_start_y:output_end_y, output_start_x:output_end_x] = output_tile[:, :, output_start_y_tile:output_end_y_tile, output_start_x_tile:output_end_x_tile]
+                self.output[:, :, output_start_y:output_end_y,
+                            output_start_x:output_end_x] = output_tile[:, :, output_start_y_tile:output_end_y_tile,
+                                                                       output_start_x_tile:output_end_x_tile]
 
     def post_process(self):
         # remove extra pad
@@ -162,7 +174,7 @@ class SCANer:
         return self.output
 
     @torch.no_grad()
-    def enhance(self, img, outscale=None, alpha_upsampler='ctsgan'):
+    def enhance(self, img, outscale=None, alpha_upsampler='realesrgan'):
         h_input, w_input = img.shape[0:2]
         # img: numpy
         img = img.astype(np.float32)
@@ -180,7 +192,7 @@ class SCANer:
             alpha = img[:, :, 3]
             img = img[:, :, 0:3]
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            if alpha_upsampler == 'ctsgan':
+            if alpha_upsampler == 'realesrgan':
                 alpha = cv2.cvtColor(alpha, cv2.COLOR_GRAY2RGB)
         else:
             img_mode = 'RGB'
@@ -200,7 +212,7 @@ class SCANer:
 
         # ------------------- process the alpha channel if necessary ------------------- #
         if img_mode == 'RGBA':
-            if alpha_upsampler == 'ctsgan':
+            if alpha_upsampler == 'realesrgan':
                 self.pre_process(alpha)
                 if self.tile_size > 0:
                     self.tile_process()

@@ -10,7 +10,7 @@ from torch.nn import functional as F
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-class CTsGAN:
+class SCANer:
     def __init__(self, scale, model_path, dni_weight=None, model=None, tile=0, tile_pad = 10, pre_pad=10, half=False, device=None, gpu_id=None):
         self.scale = scale
         self.tile_size = tile
